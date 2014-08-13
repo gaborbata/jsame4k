@@ -395,8 +395,4 @@ public final class S extends JApplet implements MouseListener, MouseMotionListen
         return image;
     }
 
-    public static void main(String[] args) {
-        new S();
-    }
-
 }
