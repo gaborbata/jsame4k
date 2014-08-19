@@ -17,7 +17,7 @@ The points of a marked block of pieces are calculated by the formula `(n - 2) ^ 
 
 How to compile
 --------------
-Use `mvn clean install` which does the following:
+Use `mvn clean install` or `gradle clean build` which do the following:
 
 * compiles sources with `javac -target 1.5 S.java`
 * creates jar files:

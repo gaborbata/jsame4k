@@ -1,0 +1,42 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+targetCompatibility = 1.5
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/libs-release" }
+    }
+    ext {
+        appName = "jsame4k-app"
+        appVersion = "1.0.0"
+        finalName = "${appName}-${appVersion}"
+        proguardBase = "${appName}-proguard-base"
+    }
+    dependencies {
+        classpath "net.sf.proguard:proguard-gradle:4.10"
+    }
+}
+
+jar {
+    baseName = proguardBase
+    manifest {
+        attributes 'Main-Class': 'B'
+    }
+}
+
+task proguard(type: proguard.gradle.ProGuardTask) {
+    injars "${buildDir}/libs/${proguardBase}.jar"
+    outjars "${buildDir}/libs/${finalName}.jar"
+    libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
+    keep 'public class S {public static void main(java.lang.String[]);}'
+}
+
+task deleteProguardBase(type: Delete) {
+    delete "${buildDir}/libs/${proguardBase}.jar"
+}
+
+deleteProguardBase.dependsOn proguard
+build.dependsOn deleteProguardBase
