@@ -19,8 +19,8 @@ How to compile
 --------------
 Use `mvn clean install` or `gradle clean build` which do the following:
 
-* compiles sources with `javac -target 1.5 S.java`
-* creates jar files:
+* compile sources with `javac -target 1.5 S.java`
+* create jar files:
     * app: `jar cvfe jsame4k-app.jar S *.class`
     * applet: `jar cvf jsame4k-applet.jar *.class`
-* optimizes/obfuscates classes with [ProGuard](http://proguard.sourceforge.net/)
+* optimize/obfuscate classes with [ProGuard](http://proguard.sourceforge.net/)

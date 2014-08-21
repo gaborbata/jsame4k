@@ -22,21 +22,20 @@ buildscript {
 
 jar {
     baseName = proguardBase
-    manifest {
-        attributes 'Main-Class': 'B'
-    }
+    manifest { attributes 'Main-Class': 'S' }
 }
 
 task proguard(type: proguard.gradle.ProGuardTask) {
+    description 'Generate optimized/obfuscated jar'
     injars "${buildDir}/libs/${proguardBase}.jar"
     outjars "${buildDir}/libs/${finalName}.jar"
     libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
     keep 'public class S {public static void main(java.lang.String[]);}'
 }
 
-task deleteProguardBase(type: Delete) {
+task deleteProguardBase(type: Delete, dependsOn: proguard) {
+    description 'Delete ProGuard base jar'
     delete "${buildDir}/libs/${proguardBase}.jar"
 }
 
-deleteProguardBase.dependsOn proguard
-build.dependsOn deleteProguardBase
+build.dependsOn proguard, deleteProguardBase

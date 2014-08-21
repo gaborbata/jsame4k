@@ -26,23 +26,24 @@ jar {
 }
 
 task proguard(type: proguard.gradle.ProGuardTask) {
+    description 'Generate optimized/obfuscated jar'
     injars "${buildDir}/libs/${proguardBase}.jar"
     outjars "${buildDir}/libs/${finalName}.jar"
     libraryjars "${System.getProperty('java.home')}/lib/rt.jar"
     keep 'public class S'
 }
 
-task deleteProguardBase(type: Delete) {
+task deleteProguardBase(type: Delete, dependsOn: proguard) {
+    description 'Delete ProGuard base jar'
     delete "${buildDir}/libs/${proguardBase}.jar"
 }
 
 task copyAppletHtml(type: Copy) {
-    from("src/main/resources")
+    description 'Copy applet template for generated jar'
+    from "src/main/resources"
     into "${buildDir}/libs"
     rename 'jsame-applet.html', "${finalName}.html"
     filter { line -> line.contains('jsame4k-applet.jar') ? line.replaceAll('jsame4k-applet.jar', "${finalName}.jar") : line }
 }
 
-deleteProguardBase.dependsOn proguard
-build.dependsOn deleteProguardBase
-build.dependsOn copyAppletHtml
+build.dependsOn proguard, deleteProguardBase, copyAppletHtml
