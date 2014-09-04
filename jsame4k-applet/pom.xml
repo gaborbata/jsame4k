@@ -4,7 +4,7 @@
   <groupId>jsame4k</groupId>
   <artifactId>jsame4k-applet</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>jsame4k-applet</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
