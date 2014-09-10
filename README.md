@@ -21,9 +21,21 @@ Use `mvn clean install` or `gradle clean build` which do the following:
 
 * compile sources with `javac -target 1.5 S.java`
 * create jar files:
-    * app: `jar cvfe jsame4k-app.jar S *.class`
+    * application: `jar cvfe jsame4k-app.jar S *.class`
     * applet: `jar cvf jsame4k-applet.jar *.class`
 * optimize/obfuscate classes with [ProGuard](http://proguard.sourceforge.net/)
+
+Usage
+-----
+Java 5 or later is recommended to run the game.
+
+* Application:
+  Most platforms have a mechanism to execute `.jar` files (e.g. double click the `jsame4k-app-1.0.0.jar`).
+  You can also run the game from the command line by typing:
+
+        java -jar jsame4k-app-1.0.0.jar
+
+* Applet: Open `jsame4k-applet-1.0.0.html` in a web browser which supports Java applets.
 
 License
 -------
