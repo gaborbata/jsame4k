@@ -17,7 +17,7 @@ The points of a marked block of pieces are calculated by the formula `(n - 2) ^ 
 
 How to compile
 --------------
-Use `mvn clean install` or `gradle clean build` which do the following:
+Use `mvn clean package` or `gradle clean build` which do the following:
 
 * compile sources with `javac -target 1.5 S.java`
 * create jar files:
@@ -29,8 +29,7 @@ Usage
 -----
 Java 5 or later is recommended to run the game.
 
-* Application:
-  Most platforms have a mechanism to execute `.jar` files (e.g. double click the `jsame4k-app-1.0.0.jar`).
+* Application: Most platforms have a mechanism to execute `.jar` files (e.g. double click the `jsame4k-app-1.0.0.jar`).
   You can also run the game from the command line by typing:
 
         java -jar jsame4k-app-1.0.0.jar
@@ -49,4 +48,4 @@ Redistribution and use in source and binary forms, with or without modification,
 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 3. The name of the author may not be used to endorse or promote products derived from this software without specific prior written permission.
 
-This software is provided by the author "as is" and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the author be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
