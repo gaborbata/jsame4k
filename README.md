@@ -36,6 +36,12 @@ Java 5 or later is recommended to run the game.
 
 * Applet: Open `jsame4k-applet-1.0.0.html` in a web browser which supports Java applets.
 
+HTML5 port
+----------
+An experimental HTML5/JavaScript port has also been created of the game (using the the `canvas` element).
+
+It can be found in the `jsame-html5` folder.
+
 License
 -------
 Copyright (c) 2009-2010 Gabor Bata
