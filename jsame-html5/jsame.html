@@ -5,15 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>JSame</title>
     <script type="text/javascript">
+      // JSame
+      //
+      // Copyright (c) 2014 Gabor Bata
+      //
+      // Permission is hereby granted, free of charge, to any person
+      // obtaining a copy of this software and associated documentation files
+      // (the "Software"), to deal in the Software without restriction,
+      // including without limitation the rights to use, copy, modify, merge,
+      // publish, distribute, sublicense, and/or sell copies of the Software,
+      // and to permit persons to whom the Software is furnished to do so,
+      // subject to the following conditions:
+      //
+      // The above copyright notice and this permission notice shall be
+      // included in all copies or substantial portions of the Software.
+      //
+      // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+      // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+      // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+      // BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+      // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+      // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+      // SOFTWARE.
+
       var TABLE_WIDTH = 20;
       var TABLE_HEIGHT = 15;
       var TILE_SIZE = 26;
       var STATUS_SIZE = 20;
       var BORDER_SIZE = 4;
-      var FACTOR = 0.7;
       var BONUS_SCORE = 1000;
 
+      // tile colors + removed tile color
       var COLORS = [ 0x914e3b, 0x7b8376, 0x3d6287, 0xaf8652, 0x262c4b ];
+      var COLOR_CHANGE_FACTOR = 0.7;
+      var COLOR_NUMBER = COLORS.length - 1;
       var STATUS_BORDER_COLOR = '#484d50';
       var STATUS_BACKGROUND_COLOR = '#62696a';
       var STATUS_TEXT_COLOR = '#ffffff';
@@ -30,7 +56,7 @@
       var texts;
       var canvas;
       var context;
-      var canvasEnabled;
+      var enabled;
       var tablePos;
       var score;
       var markedAmount;
@@ -68,7 +94,7 @@
           var r = color[0];
           var g = color[1];
           var b = color[2];
-          var i = Math.floor(1.0 / (1.0 - FACTOR));
+          var i = Math.floor(1.0 / (1.0 - COLOR_CHANGE_FACTOR));
           if (r == 0 && g == 0 && b == 0) {
               return [i, i, i];
           }
@@ -82,17 +108,17 @@
               b = i;
           }
           return [
-              Math.min(Math.floor(r / FACTOR), 0xff),
-              Math.min(Math.floor(g / FACTOR), 0xff),
-              Math.min(Math.floor(b / FACTOR), 0xff)
+              Math.min(Math.floor(r / COLOR_CHANGE_FACTOR), 0xff),
+              Math.min(Math.floor(g / COLOR_CHANGE_FACTOR), 0xff),
+              Math.min(Math.floor(b / COLOR_CHANGE_FACTOR), 0xff)
           ];
       }
 
       function darkerColor(color) {
           return [
-              Math.max(Math.floor((color[0] * FACTOR), 0)),
-              Math.max(Math.floor((color[1] * FACTOR), 0)),
-              Math.max(Math.floor((color[2] * FACTOR), 0))
+              Math.max(Math.floor((color[0] * COLOR_CHANGE_FACTOR), 0)),
+              Math.max(Math.floor((color[1] * COLOR_CHANGE_FACTOR), 0)),
+              Math.max(Math.floor((color[2] * COLOR_CHANGE_FACTOR), 0))
           ];
       }
 
@@ -160,7 +186,7 @@
           context.font = FONT;
           texts[1] = markedAmount > 1 ?
               sprintf(MARKED_TEXT, markedAmount, points(markedAmount)) :
-              (canvasEnabled ? '' : GAME_OVER_TEXT);
+              (enabled ? '' : GAME_OVER_TEXT);
           texts[2] = sprintf(SCORE_TEXT, score);
           for (var i = 0; i < texts.length; i++) {
               context.fillStyle = STATUS_BACKGROUND_COLOR;
@@ -183,7 +209,7 @@
           for (var x = 0; x < TABLE_WIDTH; x++) {
               for (var y = 0; y < TABLE_HEIGHT; y++) {
                   context.drawImage(
-                      tiles[table[TABLE_WIDTH * y + x] + 4],
+                      tiles[table[TABLE_WIDTH * y + x] + COLOR_NUMBER],
                       x * TILE_SIZE + BORDER_SIZE,
                       y * TILE_SIZE + BORDER_SIZE
                   );
@@ -195,9 +221,9 @@
           markedAmount = 0;
           score = 0;
           bonusAdded = false;
-          canvasEnabled = true;
+          enabled = true;
           for (var i = 0; i < table.length; i++) {
-              table[i] = Math.floor((Math.random() * 4) + 1);
+              table[i] = Math.floor((Math.random() * COLOR_NUMBER) + 1);
           }
       }
 
@@ -287,14 +313,16 @@
       }
 
       function mousePressed(event) {
-          var i, j, k;
+          var c, r, i, j, k;
           var position = getMousePosition(event);
+
+          // handle click on 'New Game' button
           if (position.x > 0 &&
                   position.x < Math.floor((TABLE_WIDTH * TILE_SIZE + BORDER_SIZE * 2) / 3) - 1 &&
                   position.y > TABLE_HEIGHT * TILE_SIZE + BORDER_SIZE * 2 &&
                   position.y < TABLE_HEIGHT * TILE_SIZE + BORDER_SIZE * 2 + STATUS_SIZE - 1) {
               reset();
-              canvasEnabled = true;
+              enabled = true;
               markedAmount = 0;
               paint();
           }
@@ -302,80 +330,87 @@
           var x = position.x < BORDER_SIZE ? -1 : Math.floor((position.x - BORDER_SIZE) / TILE_SIZE);
           var y = position.y < BORDER_SIZE ? -1 : Math.floor((position.y - BORDER_SIZE) / TILE_SIZE);
 
-          var removed = 0;
+          // count marked tiles
+          r = 0;
           for (i = 0; i < table.length; i++) {
               if (table[i] < 0) {
-                  removed++;
+                  r++;
               }
           }
-          if (removed < 2) {
+          if (r < 2) {
               return;
           }
+
+          // remove marked tiles
           for (i = 0; i < table.length; i++) {
               if (table[i] < 0) {
                   table[i] = 0;
               }
           }
-          var canMove;
+
+          // drop down tiles to fill the empty space
           for (j = 0; j < TABLE_WIDTH; j++) {
-              canMove = true;
-              while (canMove) {
-                  canMove = false;
+              c = true;
+              while (c) {
+                  c = false;
                   for (k = 1; k < TABLE_HEIGHT; k++) {
                       if (isRemoved(j, k) && !isRemoved(j, k - 1)) {
                           swap(j, k, j, k - 1);
-                          canMove = true;
+                          c = true;
                       }
                   }
               }
           }
 
-          canMove = true;
-          while (canMove) {
-              canMove = false;
+          // shift columns to the left if there is an empty one
+          c = true;
+          while (c) {
+              c = false;
               for (j = 1; j < TABLE_WIDTH; j++) {
                   if (isRemoved(j - 1, TABLE_HEIGHT - 1) && !isRemoved(j, TABLE_HEIGHT - 1)) {
                       for (k = 0; k < TABLE_HEIGHT; k++) {
                           swap(j, k, j - 1, k);
                       }
-                      canMove = true;
+                      c = true;
                   }
               }
           }
 
-          score += points(removed);
+          score += points(r);
 
-          canMove = true;
-          removed = 0;
-          for (var tableWidth = 0; tableWidth < TABLE_WIDTH; tableWidth++) {
-              for (var tableHeight = 0; tableHeight < TABLE_HEIGHT; tableHeight++) {
-                  if (isRemoved(tableWidth, tableHeight)) {
+          // detemine game end
+          c = true;
+          r = 0;
+          for (i = 0; i < TABLE_WIDTH; i++) {
+              for (j = 0; j < TABLE_HEIGHT; j++) {
+                  if (isRemoved(i, j)) {
                       continue;
                   }
-                  removed++;
-                  var color = getColor(tableWidth, tableHeight);
-                  if (getColor(tableWidth - 1, tableHeight) == color ||
-                      getColor(tableWidth, tableHeight - 1) == color ||
-                      getColor(tableWidth + 1, tableHeight) == color ||
-                      getColor(tableWidth, tableHeight + 1) == color) {
-                      canMove = false;
+                  r++;
+                  var color = getColor(i, j);
+                  if (getColor(i - 1, j) == color ||
+                      getColor(i, j - 1) == color ||
+                      getColor(i + 1, j) == color ||
+                      getColor(i, j + 1) == color) {
+                      c = false;
                       break;
                   }
               }
           }
 
-          if (removed == 0 && !bonusAdded) {
+          // add bonus if all tiles are removed
+          if (r == 0 && !bonusAdded) {
               bonusAdded = true;
               score += BONUS_SCORE;
           }
 
           markedAmount = 0;
-          if (!canMove) {
+          if (!c) {
               markedAmount = mark(x, y);
           }
 
-          if (canMove && canvasEnabled) {
-              canvasEnabled = false;
+          if (c && enabled) {
+              enabled = false;
               markedAmount = 0;
           }
           paint();
