@@ -351,19 +351,16 @@ public final class S extends JFrame implements MouseListener, MouseMotionListene
     @Override
     public void mouseReleased(MouseEvent event) {
         markBlocks(event, true);
-
     }
 
     @Override
     public void mouseDragged(MouseEvent event) {
         unmarkBlocks(event, false);
-
     }
 
     @Override
     public void mouseMoved(MouseEvent event) {
         markBlocks(event, false);
-
     }
 
     private static Image createBlockImage(Color color, boolean marked) {
