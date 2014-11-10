@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>JSame</title>
+    <meta charset="utf-8">
+    <meta name="description" content="SameGame clone in 4k">
+    <meta name="copyright" content="Copyright (c) 2014 Gabor Bata">
+    <title>JSame4k</title>
     <script type="text/javascript">
       var W = 20,
           H = 15,
@@ -257,7 +260,7 @@
       }
 
       function init() {
-          V = document.getElementById('j');
+          V = document.getElementById('jsame4k');
           if (V != null && !!V.getContext) {
               X = V.getContext('2d');
               u();
@@ -369,19 +372,19 @@
         margin: 0;
       }
 
-      #w {
+      #wrapper {
         display: table;
         position: absolute;
         height: 100%;
         width: 100%;
       }
 
-      #c {
+      #container {
         display: table-cell;
         vertical-align: middle;
       }
 
-      #j {
+      #jsame4k {
         -webkit-box-shadow: 0 0 30px 0 rgba(0,0,0,0.75);
         -moz-box-shadow: 0 0 30px 0 rgba(0,0,0,0.75);
         box-shadow: 0 0 30px 0 rgba(0,0,0,0.75);
@@ -393,9 +396,9 @@
     </style>
   </head>
   <body onload="init();">
-    <div id="w">
-      <div id="c">
-        <canvas id="j" width="528" height="418"></canvas>
+    <div id="wrapper">
+      <div id="container">
+        <canvas id="jsame4k" width="528" height="418"></canvas>
       </div>
     </div>
   </body>
