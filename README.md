@@ -3,7 +3,7 @@ JSame4k
 
 Overview
 --------
-JSame4k is an entry for the 2010 Java 4K Game Programming Contest. The goal of the contest is to develop the best game possible within four kilobytes (4096 bytes) of data.
+JSame4k is an entry for the [2010 Java 4K](http://www.java4k.com/index.php?action=games&method=view&gid=270) Game Programming Contest. The goal of the contest is to develop the best game possible within four kilobytes (4096 bytes) of data.
 
 JSame4k is a puzzle game (inspired by [SameGame](http://en.wikipedia.org/wiki/SameGame)), which is played on a rectangular field, filled with coloured squares. The objective of the game is to clear the field by removing groups of pieces of the same colour. You get points for each group you remove and the larger the group, the more points you get. To get the highest score you need to make large blocks of one colour.
 
