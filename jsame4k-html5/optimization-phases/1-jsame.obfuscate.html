@@ -17,9 +17,10 @@
           l, t, z, V, X, E, v, R, M, A;
 
       function m(e) {
+          var k = V.getBoundingClientRect();
           return {
-              x: e.clientX - V.getBoundingClientRect().left,
-              y: e.clientY - V.getBoundingClientRect().top
+              x: (e.clientX - k.left) * (V.width / k.width),
+              y: (e.clientY - k.top) * (V.height / k.height)
           };
       }
 
