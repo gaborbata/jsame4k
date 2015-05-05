@@ -16,7 +16,7 @@ buildscript {
         proguardBase = "${appName}-proguard-base"
     }
     dependencies {
-        classpath "net.sf.proguard:proguard-gradle:4.10"
+        classpath "net.sf.proguard:proguard-gradle:5.+"
     }
 }
 
