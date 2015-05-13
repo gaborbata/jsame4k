@@ -38,6 +38,14 @@ task deleteProguardBase(type: Delete, dependsOn: proguard) {
     delete "${buildDir}/libs/${proguardBase}.jar"
 }
 
+task checkFileSize(dependsOn: deleteProguardBase) << {
+    description 'Check 4k file size limit'
+    File file = new File("${buildDir}/libs/${finalName}.jar")
+    if (file.size() > 4096) {
+        throw new GradleException('File size must not exceed 4096 bytes.')
+    }
+}
+
 task copyAppletHtml(type: Copy) {
     description 'Copy applet template for generated jar'
     from "src/main/resources"
@@ -46,4 +54,4 @@ task copyAppletHtml(type: Copy) {
     filter { line -> line.contains('jsame4k-applet.jar') ? line.replaceAll('jsame4k-applet.jar', "${finalName}.jar") : line }
 }
 
-build.dependsOn proguard, deleteProguardBase, copyAppletHtml
+build.dependsOn checkFileSize, copyAppletHtml
