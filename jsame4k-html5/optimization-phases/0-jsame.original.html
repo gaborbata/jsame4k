@@ -120,9 +120,9 @@
 
       function darkerColor(color) {
           return [
-              Math.max(Math.floor((color[0] * COLOR_CHANGE_FACTOR), 0)),
-              Math.max(Math.floor((color[1] * COLOR_CHANGE_FACTOR), 0)),
-              Math.max(Math.floor((color[2] * COLOR_CHANGE_FACTOR), 0))
+              Math.floor(color[0] * COLOR_CHANGE_FACTOR),
+              Math.floor(color[1] * COLOR_CHANGE_FACTOR),
+              Math.floor(color[2] * COLOR_CHANGE_FACTOR)
           ];
       }
 
