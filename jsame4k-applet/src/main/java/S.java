@@ -220,11 +220,11 @@ public final class S extends JApplet implements MouseListener, MouseMotionListen
     }
 
     private boolean isMarked(int x, int y) {
-        return getState(x, y) < 0 ? true : false;
+        return getState(x, y) < 0;
     }
 
     private boolean isRemoved(int x, int y) {
-        return getState(x, y) == 0 ? true : false;
+        return getState(x, y) == 0;
     }
 
     private int getColor(int x, int y) {
