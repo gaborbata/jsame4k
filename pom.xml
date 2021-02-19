@@ -4,7 +4,7 @@
   <groupId>jsame4k</groupId>
   <artifactId>jsame4k</artifactId>
   <packaging>pom</packaging>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <name>jsame4k</name>
   <modules>
     <module>jsame4k-app</module>

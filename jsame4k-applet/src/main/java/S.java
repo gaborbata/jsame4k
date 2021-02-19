@@ -97,6 +97,7 @@ public final class S extends JApplet implements MouseListener, MouseMotionListen
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
                 paintTableGraphics(g);
             }
         };

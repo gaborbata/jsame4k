@@ -87,6 +87,7 @@ public final class S extends JFrame implements MouseListener, MouseMotionListene
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
                 paintTableGraphics(g);
             }
         };
@@ -108,6 +109,7 @@ public final class S extends JFrame implements MouseListener, MouseMotionListene
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        repaint();
     }
 
     private void paintTableGraphics(Graphics g) {
